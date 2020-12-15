@@ -15,10 +15,13 @@ class TasksController extends Controller
      */
     public function index()
     {
-        $tasks = Task::all();
-        return view('tasks.index', [
-            'tasks' => $tasks,
-        ]);
+        if (Auth::check()) {
+            $tasks = Task::all();
+            return view('tasks.index', [
+                'tasks' => $tasks,
+            ]); } else {
+            return redirect('/');
+        }
     }
 
     /**
@@ -66,9 +69,12 @@ class TasksController extends Controller
     {
         $task = Task::findOrFail($id);
 
-        return view('tasks.show', [
-            'task' => $task,
-        ]);
+        if (Auth::check()) {
+            return view('tasks.show', [
+                'task' => $task,
+            ]); } else {
+            return redirect('/');
+        }
     }
 
     /**
